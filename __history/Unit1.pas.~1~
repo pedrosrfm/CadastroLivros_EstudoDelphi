@@ -1,0 +1,72 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.Generics.Collections, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.NumberBox, Vcl.Samples.Spin;
+
+type
+  TLivro = record
+    nome, autor, genero : string;
+    numero : Integer;
+    valor : Double;
+  end;
+
+  TForm1 = class(TForm)
+    PanelCadastro: TPanel;
+    LabelCadastro: TLabel;
+    LabelNome: TLabel;
+    EditNome: TEdit;
+    LabelAutor: TLabel;
+    EditAutor: TEdit;
+    LabelGenero: TLabel;
+    EditGenero: TEdit;
+    LabelID: TLabel;
+    EditNumero: TEdit;
+    LabelValor: TLabel;
+    ButtonCadastrar: TButton;
+    NumberBoxValor: TNumberBox;
+    procedure ButtonCadastrarClick(Sender: TObject);
+  private
+    ListaLivro: TList<TLivro>;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.ButtonCadastrarClick(Sender: TObject);
+var
+  Livro: TLivro;
+begin
+  try
+    Livro.nome := EditNome.Text;
+    Livro.autor := EditAutor.Text;
+    Livro.genero := EditGenero.Text;
+    Livro.numero := StrToInt(EditNumero.Text);
+    Livro.valor := NumberBoxValor.Value;
+
+    ListaLivro.Add(Livro);
+
+    EditNome.Text := '';
+    EditAutor.Text := '';
+    EditGenero.Text := '';
+    EditNumero.Text := '';
+    NumberBoxValor.Value := 0.0;
+
+    ShowMessage('Livro cadastrado com sucesso');
+
+  except
+    on E: EConvertError do
+      ShowMessage('Por favor, insira um ID válido.');
+  end;
+end;
+
+end.
